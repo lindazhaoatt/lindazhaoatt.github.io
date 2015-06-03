@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<title>Nano Degree - Neighborhood Map Project</title>
+</head>
+
+<body>
+    <div id="search-bar">
+        <form id="search-form">
+            <input id="search" type="text" spellcheck="false" placeholder="Search near Schaumburg, IL" autocomplete="off">
+            <button id="search-submit"></button>
+        </form>
+    </div>
+    <div class="result-container">
+        <div id="list-result" class="overlay">
+            <select id="select-category" data-bind="options: categories()"></select>
+            <a id="yelp-logo" href="http://www.yelp.com/schaumburg-il-us" target="new"></a>
+            <ul id="list"></ul>
+            <div id="pagination-cntrl">
+                <div id="next" data-bind="click: next" onmousedown="return false">NEXT</div>
+                <div id="previous" data-bind="click: previous" onmousedown="return false">PREVIOUS</div>
+            </div>
+        </div>
+    </div>
+    <div class="result-container">
+        <div id="error-overlay" class="overlay"></div>
+    </div>
+    <div id="map-canvas"></div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWJ2a1Be7yvyI8vz4fm3FzgWfKtcbzEl0"></script>
+<script src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
+<script src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script>
+<script src="js/knockout-3.3.0.js"></script>
+<script src="js/main.js"></script>
+</html>
