@@ -1,16 +1,14 @@
 
 var globals = {
-    current_id : null, 
+    current_id : null,
     markers : [],
     latLngList : []
 };
 
 var viewModel = function() {
-    
     var self = this;
     var map;
     var bounds;
-    var currentID;
     var dataCache; // Use for getting details instead of reconnecting to Yelp
     var index = ko.observable(0);
     var koData = {
@@ -24,20 +22,20 @@ var viewModel = function() {
         city : ko.observable(),
         state_code : ko.observable(),
         postal_code : ko.observable(),
-        term : ko.observable(),
-    }
+        term : ko.observable()
+    };
     
     this.categories = ko.observableArray([]);
-        this.categories.push('Restaurants');
-        this.categories.push('Hotels');
-        this.categories.push('Parks');
-        this.categories.push('Clubs');
-        this.categories.push('Bowling');
-        //this.categories.push('Automotive');
-        //this.categories.push('Active Life');
-        this.categories.push('Beauty & Spas');
-        this.categories.push('Arts & Entertainment'); 
-        this.categories.push('Shopping');
+    this.categories.push('Restaurants');
+    this.categories.push('Hotels');
+    this.categories.push('Parks');
+    this.categories.push('Clubs');
+    this.categories.push('Bowling');
+    //this.categories.push('Automotive');
+    //this.categories.push('Active Life');
+    this.categories.push('Beauty & Spas');
+    this.categories.push('Arts & Entertainment');
+    this.categories.push('Shopping');
     
     /* Page count for pagination */
     this.pageIndex = ko.observable(0);
@@ -64,7 +62,7 @@ var viewModel = function() {
         var q = "";
         var inCategory = false;
         
-        for (category in self.categories()) {
+        for ( var category in self.categories()) {
             if (self.categories()[category].toLowerCase() === terms.toLowerCase()) {
                 inCategory = true;
                 break;
@@ -171,7 +169,7 @@ var viewModel = function() {
             return false;
         });
         
-        /* When li class item-place is clicked, set current id, center to marker, get infowindow to open */ 
+        /* When li class item-place is clicked, set current id, center to marker, get infowindow to open */
         $(document).on('click', '.item-place', function() {
             
             var id = $(this).attr("data");
@@ -197,7 +195,7 @@ var viewModel = function() {
         };
 
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-        bounds = new google.maps.LatLngBounds();    
+        bounds = new google.maps.LatLngBounds();
     });
     
 
@@ -215,7 +213,7 @@ var viewModel = function() {
                 
                 var subtitle = data.businesses[self.pageIndex()].review_count + " reviews";
                 
-                var address = data.businesses[self.pageIndex()].location.address[0] + " " + data.businesses[self.pageIndex()].location.city + " " + 
+                var address = data.businesses[self.pageIndex()].location.address[0] + " " + data.businesses[self.pageIndex()].location.city + " " +
                 data.businesses[self.pageIndex()].location.state_code + " " + data.businesses[self.pageIndex()].location.postal_code;
                 
                 var image = data.businesses[self.pageIndex()].image_url;
@@ -230,7 +228,7 @@ var viewModel = function() {
                                        '<div class="list-rating"><span style="color: #ff6600;">'+data.businesses[self.pageIndex()].rating+'</span>'+
                                        '<img class="rating-img" src="'+data.businesses[self.pageIndex()].rating_img_url_small+'">'+
                                        '<span>'+subtitle+'</span></div>'+
-                                       '<p class="list-info">'+data.businesses[self.pageIndex()].snippet_text+ '</p>'+                                      
+                                       '<p class="list-info">'+data.businesses[self.pageIndex()].snippet_text+ '</p>'+
                                   '</li>');
                 index(index()+1);
             }
@@ -250,7 +248,7 @@ var viewModel = function() {
         }
         $('.item-place').hide();
         self.list(dataCache);
-        $('#list').scrollTop(0);       
+        $('#list').scrollTop(0);
     };
     
     /* Pagination previous */
@@ -258,7 +256,7 @@ var viewModel = function() {
         self.pageIndex(self.pageIndex()-10);
         self.onPage(self.onPage()-5);
         self.pages(self.pages()+5);
-        if (self.pageIndex() == 0) {
+        if (self.pageIndex() === 0) {
             $('#previous').hide();
         }
         if (self.pages() - 5 > 0) {
@@ -276,7 +274,7 @@ var viewModel = function() {
             globals.markers[globals.current_id].clickable(true);
             globals.markers[globals.current_id].marker.setAnimation(null);
         }
-        for (i in globals.markers) {
+        for (var i in globals.markers) {
             bounds.extend(globals.markers[i].marker.position);
         }
         map.fitBounds(bounds);
@@ -320,18 +318,18 @@ var viewModel = function() {
     this.errorMessage = function(message) {
         $('#error-overlay').text(message);
         $('#error-overlay').css('margin-top', '1px');
-    }
-}
+    };
+};
 
 
 var Marker = function(data, id, map) {
-	
+
     var self = this;
     this.clickable = ko.observable(true);
     var latitude = data.businesses[obj].location.coordinate.latitude;
     var longitude = data.businesses[obj].location.coordinate.longitude;
-	
-    /* Get latitude and longitude then push to latLngList array */		
+
+    /* Get latitude and longitude then push to latLngList array */
     this.Latlng = new google.maps.LatLng(latitude, longitude);
     this.marker = new google.maps.Marker({ position : self.Latlng, map : map });
     globals.latLngList.push(new google.maps.LatLng(latitude, longitude));
@@ -339,7 +337,7 @@ var Marker = function(data, id, map) {
 
      /* Assign marker id and add event listener */
     this.attachData = ko.computed(function() {
-		
+
         self.id = id;
 
 
@@ -358,16 +356,16 @@ var Marker = function(data, id, map) {
  
         });
     });
-	
+
     /* Marker bounce animation. */
     this.bounce = function() {
-		
+
         if (self.clickable()){
             if (globals.current_id) {
                 globals.markers[globals.current_id].clickable(true);
                 globals.markers[globals.current_id].marker.setAnimation(null);
             }
-            if (self.marker.getAnimation() != null) {
+            if (self.marker.getAnimation() !== null) {
                 self.marker.setAnimation(null);
             }else{
                 self.marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -375,14 +373,14 @@ var Marker = function(data, id, map) {
             self.clickable(false);
         }
     };
-	
+
     this.setAllMap = function(map) {
-		
-        for (marker in globals.markers) {
+
+        for ( var marker in globals.markers) {
             globals.markers[marker].marker.setMap(map);
         }
     };
-	
+
     this.removeMarkers = function() {
         self.setAllMap(null);
     };
@@ -390,7 +388,7 @@ var Marker = function(data, id, map) {
 
 
 var setMarker = function(data, map) {
-		
+
     //console.log(data);
     /* Push each marker into markers array */
     for (obj in data.businesses) {
@@ -403,7 +401,7 @@ var setMarker = function(data, map) {
 var setInfoWindow = function(map, data, id){
 
         /* Get details of location passing its id */
-        var placeUrl = data.businesses[id].url; //place url for its website 
+        var placeUrl = data.businesses[id].url; //place url for its website
         var name = data.businesses[id].name;
         var address = data.businesses[id].location.address[0] ;
         var address2 = data.businesses[id].location.city + ', ' + data.businesses[id].location.state_code + ' ' + data.businesses[id].location.postal_code; // address for the place
@@ -414,12 +412,12 @@ var setInfoWindow = function(map, data, id){
             image = 'img/no_image.png';
         }
 
-        //create new content 
-        var contentString = '<div class="busInfowindow">' + 
-        '<div class="busName">' + '<a href ="' + placeUrl + '" target="_blank" >' + name + '</a>'  + '</div>' + 
-        '<div class="busAddress">' + address + '</div>' + 
-        '<div class="busAddress">' + address2 + '</div>' + 
-        '<div class="busContact">' + contact + '</div>' + 
+        //create new content
+        var contentString = '<div class="busInfowindow">' +
+        '<div class="busName">' + '<a href ="' + placeUrl + '" target="_blank" >' + name + '</a>'  + '</div>' +
+        '<div class="busAddress">' + address + '</div>' +
+        '<div class="busAddress">' + address2 + '</div>' +
+        '<div class="busContact">' + contact + '</div>' +
         '<img class="list-thumbnail" src="' + image + '">' + '</div>';
 
          //console.log(contentString);
