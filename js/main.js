@@ -110,7 +110,7 @@ var viewModel = function() {
         self.onPage(5);
         
         $('#list-result').css('margin-top', '-550px');
-        $('#error-overlay').css('margin-top', '-45px');
+        $('#error-results').css('margin-top', '-45px');
         
         setTimeout(function() {
             
@@ -267,7 +267,16 @@ var viewModel = function() {
         self.list(dataCache);
         $('#list').scrollTop(0);
     };
+
     
+    /* Go back to place list */
+    this.back = function() {
+        $('#categories').css("margin-top", "-238px");
+        setTimeout(function(){
+            $('#list-result').css("margin-top", "1px");
+        }, 1000);
+        self.fitAllBounds();
+    };
     
     this.fitAllBounds = function() {
         if (globals.current_id) {
@@ -316,8 +325,8 @@ var viewModel = function() {
         return koData.term;
     });
     this.errorMessage = function(message) {
-        $('#error-overlay').text(message);
-        $('#error-overlay').css('margin-top', '1px');
+        $('#error-results').text(message);
+        $('#error-results').css('margin-top', '1px');
     };
 };
 
@@ -425,6 +434,12 @@ var setInfoWindow = function(map, data, id){
           // infoWindows are the little helper windows that open when you click or hover over a pin on a map
          infoWindow.setContent(contentString);
          infoWindow.open(map, globals.markers[id].marker);
+
+        $('#list-result').css("margin-top", "-810px");
+        setTimeout(function(){
+            $('#categories').css("margin-top", "1px");
+        }, 1000);
+
 
     };
     
