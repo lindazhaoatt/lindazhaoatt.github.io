@@ -31,8 +31,6 @@ var viewModel = function() {
     this.categories.push('Parks');
     this.categories.push('Clubs');
     this.categories.push('Bowling');
-    //this.categories.push('Automotive');
-    //this.categories.push('Active Life');
     this.categories.push('Beauty & Spas');
     this.categories.push('Arts & Entertainment');
     this.categories.push('Shopping');
@@ -173,8 +171,8 @@ var viewModel = function() {
         $(document).on('click', '.item-place', function() {
             
             var id = $(this).attr("data");
-            globals.markers[id].bounce(globals.markers[id]);
             globals.current_id = id;
+            globals.markers[id].toggleBounce(globals.markers[id]);
             map.panTo(globals.markers[id].marker.position);
 
             /*open infoWindow to display more information*/
@@ -349,38 +347,32 @@ var Marker = function(data, id, map) {
 
         self.id = id;
 
-
         google.maps.event.addListener(self.marker, 'click', function() {
-
-            self.bounce();
 
             /* Center to this marker */
             map.panTo(self.marker.position);
 
             /* Set global current id */
             globals.current_id = self.id;
-            
+
             /*open infoWindow to display more information*/
             setInfoWindow(map, data, id);
  
+            self.toggleBounce();
+           
         });
     });
 
-    /* Marker bounce animation. */
-    this.bounce = function() {
+    /* Marker toggleBounce animation. */
+    this.toggleBounce = function() {
 
-        if (self.clickable()){
-            if (globals.current_id) {
-                globals.markers[globals.current_id].clickable(true);
-                globals.markers[globals.current_id].marker.setAnimation(null);
-            }
-            if (self.marker.getAnimation() !== null) {
-                self.marker.setAnimation(null);
-            }else{
-                self.marker.setAnimation(google.maps.Animation.BOUNCE);
-            }
-            self.clickable(false);
+        /* remove animation from all markers  */
+        for ( var marker in globals.markers) {
+            globals.markers[marker].marker.setAnimation(null);
         }
+
+        /* set animation for the current marker  */
+        self.marker.setAnimation(google.maps.Animation.BOUNCE);
     };
 
     this.setAllMap = function(map) {

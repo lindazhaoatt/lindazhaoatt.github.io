@@ -1,20 +1,14 @@
 ## Front-End Web Developer Nanodegree PROJECT 5, Neighborhood Map
 
-Live version using Google Maps and Yelp API can be found: http://lindazhaoatt.github.io/
+This is a web application that uses Google Maps API and Yelp API to find interesting places in the neighborhood of Schaumburg, IL and display those places on a map.
 
-## Project Overview
+Live version of the application can be found here: http://lindazhaoatt.github.io/. Enjoy the app!
 
-You will develop a single page application featuring a map of your neighborhood or a neighborhood you would like to visit. You will then add additional functionality to this map including highlighted locations, third-party data about those locations and various ways to browse the content.
 
-Why this Project?
+## How to run
+At the top left in the app, type in interesting locatiions to visit in the input box.  Or, choose a category from a list of pre-defined categories dropdown. The initial category is set to be "Restaurants".
 
-The neighborhood tour application is complex enough and incorporates a variety of data points that it can easily become unwieldy to manage. There are a number of frameworks, libraries and APIs available to make this process more manageable and many employers are looking for specific skills in using these packages.
+Each location that has been searched for will display in the List View and also show on the map as a marker. Each location in the List View and each marker can be clicked and additional data about a location is provided in an infowindow. Markers should bounce when clicked to show which marker is the active one. When a location is selected, the List View will be collapsed into the category name only. To select the category again, simply click on the category name and the list view will appear. Clikcing on the location name in the infowindow will open up the Yelp! Reviews. 
 
-What will I Learn?
+This app will run across modern desktop, tablet, and phone browsers.
 
-You will learn how design patterns assist in developing a manageable codebase. You’ll then explore how frameworks can decrease the time required developing an application and provide a number of utilities for you to use. Finally, you’ll implement third-party APIs that provide valuable data sets that can improve the quality of your application.
-
-How does this help my Career?
-
-Interacting with API servers is the primary function of Front-End Web Developers
-Use of third-party libraries and APIs is a standard and acceptable practice that is encouraged
